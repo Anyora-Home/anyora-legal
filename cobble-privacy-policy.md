@@ -82,6 +82,10 @@ On Android, Google Play handles Full Cobble purchases and payments. To verify or
 
 Cobble stores the purchase token and signed receipt privately on the device so verified lifetime access remains available offline. These records are excluded from Cobble recovery exports. A refund is reflected after the next successful online verification; it does not delete your saved Sources, edits, or exports. Google handles payment and transaction records under its own privacy practices. Deleting local Cobble data does not delete records held by Google.
 
+### Complimentary review access on Android
+
+If Anyora Home provides you with a review access code, entering it sends the code and a random request value over HTTPS to our verification service hosted by Cloudflare. The service compares a cryptographic hash of the code and returns a signed access receipt. Review codes are not sent to Google, do not create a payment or Google Play purchase, and are not associated with a Cobble account. The code and receipt are stored privately on your device and excluded from backups and recovery exports. Enter the code again after reinstalling. Revocation takes effect after successful online verification and does not delete saved Sources, edits, or exports.
+
 ### Support messages
 
 If you choose Send Feedback and then send an email, Anyora Home receives the email address used to send the message, the message content you provide, and any app information left in the prepared message. The prepared message includes the Cobble app version and build number, iOS or Android version, and broad device family. Cobble tells you that this app information can be removed before you send the email.
