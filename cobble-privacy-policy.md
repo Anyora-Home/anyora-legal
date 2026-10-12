@@ -2,7 +2,7 @@
 
 **Anyora Home LLC**
 
-> **Privacy in one sentence.** Cobble keeps your saved Sources and the information it derives from them on your device; the limited network activity described below is used for optional product analytics, link previews, App Store purchases, and actions you choose such as sending feedback or exporting data.
+> **Privacy in one sentence.** Cobble keeps your saved Sources and the information it derives from them on your device; the limited network activity described below is used for optional iOS product analytics, Android SDK diagnostics, link previews, App Store and Google Play purchases, and actions you choose such as sending feedback or exporting data.
 
 ## 1. Scope
 
@@ -15,18 +15,18 @@ Cobble is designed as a local-first application. Cobble does not require an Anyo
 Cobble processes information that you choose to save, create, select, capture, paste, or share into the app. Depending on how you use Cobble, this may include:
 
 - photos, screenshots, and camera captures;
-- text that you paste, type, or send through the iOS Share menu;
+- text that you paste, type, or send through the system Share menu;
 - web links that you save;
 - quick notes, titles, inline notes, and other edits you make;
 - information recognized or derived from saved material, such as OCR text, dates, times, places, people, organizations, event details, titles, relationships, and confidence or review state;
 - Threads, Events, reminders, relationship decisions, and corrections you create or confirm; and
 - locally generated thumbnails, link-preview metadata, search indexes, and other app data needed to operate Cobble.
 
-Cobble receives content through system interfaces only when you take the relevant action. For example, camera access is requested when you choose to take a photo, and photo selection is handled through Apple’s system photo picker.
+Cobble receives content through system interfaces only when you take the relevant action. On iOS, for example, camera access is requested when you choose to take a photo. Photo selection uses the platform’s system photo picker.
 
 ## 3. Where your saved content is stored
 
-Your Cobble Sources, notes, extracted information, Threads, Events, reminders, relationships, thumbnails, and other app-owned records are stored locally in Cobble’s iOS app storage. The Share Extension uses an Apple App Group container to pass content you explicitly share into Cobble; that staging area is also local to the device.
+Your Cobble Sources, notes, extracted information, Threads, Events, reminders, relationships, thumbnails, and other app-owned records are stored locally in Cobble’s app storage on your device. On iOS, the Share Extension uses an Apple App Group container to pass content you explicitly share into Cobble; that staging area is also local to the device.
 
 Cobble does not upload your saved Source content to an Anyora Home server or account. Anyora Home generally cannot view, retrieve, remotely edit, or remotely delete information that exists only in Cobble’s local storage.
 
@@ -42,7 +42,7 @@ Although Cobble is local-first, some features use network services. These flows 
 
 ### Product analytics
 
-Cobble uses TelemetryDeck to understand how the app is used. The in-app setting is labeled “Share anonymous analytics.” Analytics sharing is enabled by default and can be turned off at any time in Cobble Settings. When the setting is off, Cobble stops sending new optional analytics events.
+On iOS, Cobble uses TelemetryDeck to understand how the app is used. The in-app setting is labeled “Share anonymous analytics.” Analytics sharing is enabled by default and can be turned off at any time in Cobble Settings. When the setting is off, Cobble stops sending new optional analytics events.
 
 Cobble’s analytics payload is deliberately limited. It may include:
 
@@ -56,41 +56,59 @@ Cobble does not include the text or images you saved, your search terms, your no
 
 TelemetryDeck receives the analytics request as our analytics processor. TelemetryDeck states that it does not store IP addresses. See [TelemetryDeck privacy information](https://telemetrydeck.com/privacy) for its current service practices.
 
+### Android text recognition and SDK diagnostics
+
+On Android, image text recognition uses Google ML Kit and runs on your device. Your images and recognized text are not uploaded by text recognition. ML Kit sends Google technical diagnostics and usage information over HTTPS: device and app information, a per-installation identifier, performance measurements, API configuration such as image format and resolution, input and output sizes, feature versions, event types, and error codes. Cobble does not provide an opt-out for these SDK diagnostics.
+
+Cobble’s Android app currently sends no optional product-analytics events to TelemetryDeck. This is separate from ML Kit diagnostics.
+
 ### Link previews
 
-When you save a web link, Cobble asks Apple’s LinkPresentation framework to retrieve metadata for that URL, such as a page title, image, or site icon. This can cause a network request associated with the URL you chose to save. The destination service, Apple, or other network infrastructure involved in retrieving the preview may receive the URL and ordinary connection information under their own practices. Cobble stores the resulting preview information locally when available.
+On iOS, when you save a web link, Cobble asks Apple’s LinkPresentation framework to retrieve metadata for that URL, such as a page title, image, or site icon. This can cause a network request associated with the URL you chose to save. The destination service, Apple, or other network infrastructure involved in retrieving the preview may receive the URL and ordinary connection information under their own practices. Cobble stores the resulting preview information locally when available.
+
+On Android, Cobble contacts the linked website and its image provider to retrieve a title and preview. Those services receive the requested URL and ordinary connection information, including your IP address. Preview information is stored locally when available.
 
 Link-preview retrieval is not used to send your other Cobble Sources, notes, search queries, Threads, or Events to the linked website.
 
 ### App Store purchases
 
-Full Cobble is purchased and restored through Apple StoreKit. Cobble asks Apple for product information, presents Apple’s purchase or offer-code interfaces, and checks the current App Store entitlement needed to unlock lifetime access. Anyora Home does not receive your full payment-card details through Cobble.
+On iOS, Full Cobble is purchased and restored through Apple StoreKit. Cobble asks Apple for product information, presents Apple’s purchase or offer-code interfaces, and checks the current App Store entitlement needed to unlock lifetime access. Anyora Home does not receive your full payment-card details through Cobble.
 
 Apple’s handling of App Store account and payment information is governed by Apple’s privacy practices. See [Apple Privacy](https://www.apple.com/legal/privacy/).
 
+### Google Play purchases on Android
+
+On Android, Google Play handles Full Cobble purchases and payments. To verify or restore access, Cobble sends the product identifier, Google Play purchase token, and a random request value over HTTPS to Anyora Home’s purchase-verification service hosted by Cloudflare. The service checks and acknowledges the purchase with Google and returns a signed access receipt. It does not receive your saved Sources or maintain a customer or purchase database. Network providers process ordinary connection metadata. Anyora Home does not receive your full payment-card details through Cobble.
+
+Cobble stores the purchase token and signed receipt privately on the device so verified lifetime access remains available offline. These records are excluded from Cobble recovery exports. A refund is reflected after the next successful online verification; it does not delete your saved Sources, edits, or exports. Google handles payment and transaction records under its own privacy practices. Deleting local Cobble data does not delete records held by Google.
+
 ### Support messages
 
-If you choose Send Feedback and then send an email, Anyora Home receives the email address used to send the message, the message content you provide, and any app information left in the prepared message. The prepared message includes the Cobble app version and build number, iOS version, and broad device family. Cobble tells you that this app information can be removed before you send the email.
+If you choose Send Feedback and then send an email, Anyora Home receives the email address used to send the message, the message content you provide, and any app information left in the prepared message. The prepared message includes the Cobble app version and build number, iOS or Android version, and broad device family. Cobble tells you that this app information can be removed before you send the email.
 
 Cobble does not automatically send the feedback message or attach your saved Sources to it.
 
 ## 6. Reminders and notifications
 
-Cobble reminders are scheduled as local iOS notifications after you choose to create a reminder and, when required, grant notification permission. Cobble does not use a remote push-notification service for these reminders.
+Cobble reminders are scheduled as local device notifications after you choose to create a reminder and, when required, grant notification permission. Cobble does not use a remote push-notification service for these reminders.
 
-A reminder notification may display the title of the related Source or Event. Whether notification content appears on the Lock Screen or in other system surfaces depends on your iOS notification settings. You can change Cobble’s notification permissions and preview settings in iOS Settings.
+A reminder notification may display the title of the related Source or Event. Whether notification content appears on the Lock Screen or in other system surfaces depends on your device notification settings. You can change Cobble’s notification permissions and preview settings in iOS or Android Settings.
 
 ## 7. Exports, device backups, and external copies
 
 ### Cobble export
 
-Cobble can create a recovery export that contains Cobble data, including the local database and saved source assets needed for recovery. You choose where to save the exported file through Apple’s document picker. The destination you select may be local storage or a third-party or cloud storage provider available through the Files interface.
+Cobble can create a recovery export that contains Cobble data, including the local database and saved source assets needed for recovery. You choose where to save the exported file through the platform’s document picker. The destination you select may be local storage or a third-party or cloud storage provider available through the system file interface.
 
 After an export leaves Cobble, its storage, synchronization, retention, sharing, and deletion are controlled by you and the destination provider. Protect exported files as you would the underlying information they contain.
 
 ### iOS device backup
 
 Cobble does not use CloudKit or an Anyora Home cloud service to sync your saved content. Separately, Apple’s normal device-backup system may include app data stored in Application Support when device backup is enabled. As a result, Cobble’s local data may be included in an iCloud or other device backup according to your Apple and device settings. Anyora Home does not control those backups.
+
+### Android device backup
+
+On Android, Cobble excludes its app data from platform cloud backup and device-transfer rules. Use Cobble’s explicit recovery export to keep a copy of saved content. Purchase tokens and signed purchase receipts are excluded from that export; restore Full Cobble through Google Play.
 
 ## 8. Deletion and retention
 
@@ -104,9 +122,11 @@ Analytics data and support correspondence are retained only for as long as reaso
 
 Cobble does not sell your saved content or personal information. Cobble does not use your saved content for advertising. We disclose or transmit information only in the limited circumstances described in this policy, including:
 
-- content-free analytics sent to TelemetryDeck when analytics sharing is enabled;
+- content-free analytics sent to TelemetryDeck on iOS when analytics sharing is enabled;
 - the URL you choose to save when the system retrieves link-preview metadata;
-- purchase and entitlement interactions handled by Apple StoreKit;
+- purchase and entitlement interactions handled by Apple StoreKit on iOS;
+- Android SDK diagnostics sent to Google as described above;
+- Android purchase verification involving Google Play and Anyora Home’s service hosted by Cloudflare;
 - information you choose to send in a support email;
 - files or content you deliberately export, share, or open in another app or service; and
 - information we are legally required to disclose if we actually possess it, such as support records or analytics available to us.
@@ -115,9 +135,9 @@ Because Anyora Home does not receive your local Cobble content as part of normal
 
 ## 10. Security
 
-Cobble reduces exposure by keeping saved content and content processing in the app’s local storage rather than operating a centralized content service. Cobble uses the iOS application sandbox and platform file protections available to the app. No device, application, backup, export, network, or storage method can be guaranteed completely secure.
+Cobble reduces exposure by keeping saved content and content processing in the app’s local storage rather than operating a centralized content service. Cobble uses the platform’s application sandbox and platform file protections available to the app. No device, application, backup, export, network, or storage method can be guaranteed completely secure.
 
-You are responsible for protecting access to your device, Apple account, device backups, exported files, and any external services where you choose to place Cobble data. Cobble is not designed to be a password manager, authentication-code vault, financial-credential repository, or guaranteed backup service.
+You are responsible for protecting access to your device, Apple or Google account, device backups, exported files, and any external services where you choose to place Cobble data. Cobble is not designed to be a password manager, authentication-code vault, financial-credential repository, or guaranteed backup service.
 
 ## 11. Children and family information
 
@@ -130,8 +150,8 @@ If you contact Anyora Home and believe a child has directly provided information
 You can control much of Cobble’s data handling directly on your device. You can:
 
 - choose what content to save or share into Cobble;
-- turn off Share anonymous analytics in Cobble Settings;
-- manage camera and notification permissions through iOS Settings;
+- turn off Share anonymous analytics in Cobble Settings on iOS;
+- manage applicable camera and notification permissions through iOS or Android Settings;
 - edit or delete locally stored Sources and other supported app data;
 - remove reminders;
 - export Cobble data; and
